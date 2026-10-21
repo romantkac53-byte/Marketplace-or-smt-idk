@@ -1,0 +1,59 @@
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-4));
+}
+.content { min-width: 0; }
+.toolbar { display: flex; align-items: flex-end; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+  transition: opacity .15s;
+}
+
+.tree { list-style: none; margin: 0; padding: 0; }
+.treeItem {
+  display: block;
+  width: 100%;
+  padding: 6px var(--space-2);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
+}
+.treeItem:hover { background: var(--color-primary-soft); color: var(--color-primary); }
+.treeActive { background: var(--color-primary-soft); color: var(--color-primary); font-weight: 700; }
+
+.priceRow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.priceRow button { grid-column: 1 / -1; }
+
+.filtersToggle { display: none; }
+
+/* Планшет и телефон: фильтры прячутся под кнопку «Фильтры» */
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; position: static; }
+  .sidebarOpen { display: flex; }
+  .filtersToggle { display: inline-flex; }
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
+}
+
+/* «Вы недавно смотрели» — горизонтальная лента карточек */
+.recent { margin-bottom: var(--space-5); padding-bottom: var(--space-5); border-bottom: 1px solid var(--color-border); }
+.recentTitle { font-size: 18px; margin-bottom: var(--space-3); }
+.recentRow { display: flex; gap: var(--space-3); overflow-x: auto; padding-bottom: var(--space-2); scroll-snap-type: x proximity; }
+.recentItem { flex: 0 0 180px; scroll-snap-align: start; }

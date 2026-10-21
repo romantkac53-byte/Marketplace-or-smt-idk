@@ -1,0 +1,22 @@
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); align-items: start; }
+.twoCols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.balance { font-size: 36px; font-weight: 800; color: var(--color-primary); }
+.operations { list-style: none; margin: 0; padding: 0; }
+.operations li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.operations li:last-child { border-bottom: none; }
+.plus { color: var(--color-success); }
+.minus { color: var(--color-text); }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .twoCols { grid-template-columns: 1fr; }
+}

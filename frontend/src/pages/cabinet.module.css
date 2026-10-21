@@ -1,0 +1,118 @@
+/* ---------- Каркас кабинета (продавец и персонал) ---------- */
+.layout {
+  display: grid;
+  /* minmax(0, 1fr): колонка может сжиматься, а не растягиваться под широкое содержимое (таблицы, меню) */
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.sidebar {
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.shop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.shopIcon { font-size: 28px; }
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none !important;
+}
+.menuItem:hover { background: var(--color-primary-soft); color: var(--color-primary); }
+.menuActive { background: var(--color-primary-btn); color: #fff !important; }
+.menuActive:hover { background: var(--color-primary-btn-hover); }
+.menuDisabled { color: var(--color-text-muted); opacity: .55; cursor: not-allowed; }
+.menuDisabled:hover { background: none; color: var(--color-text-muted); }
+.content { min-width: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.notice { margin: 0; }
+
+/* ---------- Общее для страниц кабинета ---------- */
+.head { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.head h1 { margin: 0; }
+.toolbar { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+.toolbar .input, .toolbar .select { width: auto; min-width: 180px; }
+.tableWrap { overflow-x: auto; }
+.thumb { width: 48px; height: 48px; flex-shrink: 0; }
+.nameCell { display: flex; align-items: center; gap: var(--space-3); min-width: 220px; }
+.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.actions { display: flex; gap: var(--space-1); justify-content: flex-end; flex-wrap: wrap; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.formGrid .wide { grid-column: 1 / -1; }
+.charRow { display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--space-2); align-items: center; }
+.imageBox { display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap; }
+.imageBox > :first-child { width: 140px; }
+.money { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.moneyItem { padding: var(--space-3); background: var(--color-bg); border-radius: var(--radius-sm); }
+.moneyItem strong { display: block; font-size: 18px; }
+.checkList {
+  max-height: 220px;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: static; }
+  .menu { flex-direction: row; overflow-x: auto; }
+  .menuItem { white-space: nowrap; }
+  .shop { display: none; }
+}
+@media (max-width: 560px) {
+  .formGrid { grid-template-columns: 1fr; }
+  .money { grid-template-columns: 1fr; }
+  .charRow { grid-template-columns: 1fr auto; }
+  .charRow > :first-child { grid-column: 1 / -1; }
+}
+
+/* ---------- Фото товара в кабинете продавца ---------- */
+.photoGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-3); }
+.photo { position: relative; margin: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.photoBadge { position: absolute; top: var(--space-2); left: var(--space-2); }
+.photoActions { display: flex; justify-content: space-between; }
+.photoAction { align-self: flex-start; }
+.photoAdd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  aspect-ratio: 1;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+.photoAdd:hover { border-color: var(--color-primary); background: var(--color-primary-soft); }

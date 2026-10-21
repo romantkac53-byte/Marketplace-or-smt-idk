@@ -1,0 +1,230 @@
+/* ============================================================
+   Дизайн-токены: все цвета, отступы, скругления — только отсюда.
+   Чтобы поменять вид всего сайта, достаточно поменять переменные.
+   ============================================================ */
+:root {
+  color-scheme: light;
+  /* Основной цвет: синий в светлой теме. Проверен валидатором контраста на белом фоне */
+  --color-primary: #2563eb;            /* графики, ссылки, акценты */
+  --color-primary-hover: #1d4ed8;
+  --color-primary-btn: #2563eb;        /* заливка кнопок под белым текстом */
+  --color-primary-btn-hover: #1d4ed8;
+  --color-primary-soft: #eff6ff;
+  --color-primary-border: #bfdbfe;
+  --color-sale: #e11d48;               /* цена со скидкой (текст) */
+  --color-sale-strong: #e11d48;        /* бейдж скидки под белым текстом */
+  --color-sale-soft: #fff1f2;
+  --color-success: #059669;
+  --color-success-soft: #ecfdf5;
+  --color-warning: #d97706;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-danger-border: #fecaca;
+  --color-star: #f59e0b;
+
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-muted-bg: #f3f4f6;
+  --color-grid: #eef0f3;               /* сетка графиков */
+  --color-image-bg: #ffffff;           /* фон под фото товара */
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgb(17 24 39 / 6%);
+  --shadow: 0 4px 16px rgb(17 24 39 / 8%);
+  --shadow-lg: 0 12px 32px rgb(17 24 39 / 14%);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --container: 1200px;
+  --header-height: 64px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Тёмная тема: основной цвет — фиолетовый. Включается атрибутом data-theme="dark" на <html>
+   (его ставит переключатель в шапке; по умолчанию — как в настройках системы) */
+:root[data-theme="dark"] {
+  color-scheme: dark;                  /* тёмные поля ввода, календари и полосы прокрутки браузера */
+  --color-primary: #8b5cf6;            /* проверен валидатором на фоне карточек #171a23 */
+  --color-primary-hover: #a78bfa;
+  --color-primary-btn: #7c3aed;        /* темнее: белый текст на нём — контраст 5,7:1 */
+  --color-primary-btn-hover: #6d28d9;
+  --color-primary-soft: rgb(139 92 246 / 16%);
+  --color-primary-border: #4c3a8a;
+  --color-sale: #fb7185;
+  --color-sale-strong: #e11d48;
+  --color-sale-soft: rgb(251 113 133 / 14%);
+  --color-success: #34d399;
+  --color-success-soft: rgb(52 211 153 / 12%);
+  --color-warning: #fbbf24;
+  --color-warning-soft: rgb(251 191 36 / 12%);
+  --color-danger: #f87171;
+  --color-danger-soft: rgb(248 113 113 / 12%);
+  --color-danger-border: #7f1d1d;
+  --color-star: #fbbf24;
+
+  --color-text: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-border: #2a2f3a;
+  --color-bg: #0f1117;
+  --color-surface: #171a23;
+  --color-muted-bg: #232734;
+  --color-grid: #232733;
+  --color-image-bg: #e9eaee;           /* фото на белом фоне приглушаем, чтобы не слепили */
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow: 0 4px 16px rgb(0 0 0 / 45%);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 60%);
+}
+
+/* ---------- База ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: background-color .2s, color .2s;
+}
+
+h1, h2, h3, h4 { margin: 0 0 var(--space-3); line-height: 1.25; }
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; display: block; }
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Только верх и низ: сокращённое padding обнулило бы боковые отступы .container */
+.page { padding-top: var(--space-5); padding-bottom: var(--space-7); }
+.muted { color: var(--color-text-muted); }
+.small { font-size: 13px; }
+.stack { display: flex; flex-direction: column; gap: var(--space-3); }
+.row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+/* ---------- Карточка ---------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
+}
+
+/* ---------- Кнопки ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: background .15s, border-color .15s, color .15s, opacity .15s;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-primary { background: var(--color-primary-btn); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--color-primary-btn-hover); }
+.btn-outline { background: var(--color-surface); border-color: var(--color-border); color: var(--color-text); }
+.btn-outline:hover:not(:disabled) { border-color: var(--color-primary); color: var(--color-primary); }
+.btn-danger { background: var(--color-surface); border-color: var(--color-danger-border); color: var(--color-danger); }
+.btn-danger:hover:not(:disabled) { background: var(--color-danger-soft); }
+.btn-ghost { background: transparent; color: var(--color-text-muted); }
+.btn-ghost:hover:not(:disabled) { color: var(--color-primary); background: var(--color-primary-soft); }
+.btn-lg { min-height: 48px; padding: 0 var(--space-5); font-size: 16px; }
+.btn-sm { min-height: 32px; padding: 0 var(--space-3); font-size: 13px; }
+.btn-block { width: 100%; }
+
+/* ---------- Формы ---------- */
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+.field label { font-size: 13px; font-weight: 600; color: var(--color-text-muted); }
+.input, .select, .textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  color: inherit;
+  background: var(--color-surface);
+  transition: border-color .15s, box-shadow .15s;
+}
+.textarea { min-height: 96px; resize: vertical; }
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+.field-error { color: var(--color-danger); font-size: 13px; }
+.checkbox { display: flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.checkbox input { width: 16px; height: 16px; accent-color: var(--color-primary); }
+
+/* ---------- Бейджи ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+.badge-success { background: var(--color-success-soft); color: var(--color-success); }
+.badge-warning { background: var(--color-warning-soft); color: var(--color-warning); }
+.badge-danger { background: var(--color-danger-soft); color: var(--color-danger); }
+.badge-muted { background: var(--color-muted-bg); color: var(--color-text-muted); }
+.badge-sale { background: var(--color-sale-strong); color: #fff; }
+
+/* ---------- Сообщения ---------- */
+.alert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.alert-error { background: var(--color-danger-soft); color: var(--color-danger); }
+.alert-success { background: var(--color-success-soft); color: var(--color-success); }
+
+/* ---------- Таблица ---------- */
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border); }
+.table th { font-size: 13px; color: var(--color-text-muted); font-weight: 600; }
+.table tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 22px; }
+  .card { padding: var(--space-4); }
+}

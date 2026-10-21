@@ -1,0 +1,104 @@
+/* ---------- Окно входа / регистрации поверх сайта ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;                       /* выше шапки (50) — поиск и меню под затемнением */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6vh var(--space-4) var(--space-4);
+  background: rgb(15 17 23 / 55%);
+  backdrop-filter: blur(4px);         /* страница под окном размыта — не отвлекает */
+  overflow-y: auto;
+  animation: fade-in .15s ease-out;
+}
+.dialog {
+  width: 100%;
+  max-width: 460px;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: rise-in .2s ease-out;
+}
+.dialogHead { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
+.modeTabs { flex: 1; display: flex; gap: var(--space-5); border-bottom: 1px solid var(--color-border); }
+.modeTabs button {
+  position: relative;
+  padding: 0 0 var(--space-3);
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.modeTabs .modeActive { color: var(--color-text); }
+.modeTabs .modeActive::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--color-primary);
+}
+.close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-muted-bg);
+  color: var(--color-text-muted);
+  font-size: 15px;
+  cursor: pointer;
+}
+.close:hover { color: var(--color-text); }
+
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(12px); } }
+
+/* ---------- Элементы форм ---------- */
+.twoCols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+}
+.tabs button {
+  min-height: 36px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.tabs .tabActive { background: var(--color-surface); color: var(--color-primary); box-shadow: var(--shadow-sm); }
+
+/* Ссылка-кнопка: открывает окно / переключает вкладку, а не уходит со страницы */
+.linkButton {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Телефон: окно на весь экран */
+@media (max-width: 560px) {
+  .overlay { padding: 0; align-items: stretch; }
+  .dialog { max-width: none; min-height: 100%; border-radius: 0; border: none; padding: var(--space-4); }
+  .twoCols { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay, .dialog { animation: none; }
+}

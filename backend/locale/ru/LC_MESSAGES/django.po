@@ -1,0 +1,11 @@
+# Дополнительные переводы проекта: строки, которых ещё нет в русском переводе Django 6.1.
+# После правки этого файла пересоберите django.mo: python manage.py compilemessages
+# (нужен GNU gettext) или python locale/build_mo.py (без внешних программ).
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+
+# Пустой вариант в выпадающих списках админ-панели (django/db/models/fields/__init__.py)
+msgid "- Select an option -"
+msgstr "- Выберите вариант -"
