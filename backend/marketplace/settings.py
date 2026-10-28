@@ -31,7 +31,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-only-for-local-develo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'marketplace-or-smt-idk.onrender.com',
+]
 
 
 # Application definition
@@ -109,6 +111,9 @@ if os.environ.get('DB_NAME'):
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
         }
     }
 else:
