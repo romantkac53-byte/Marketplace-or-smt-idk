@@ -31,9 +31,22 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-only-for-local-develo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = [
-    'marketplace-or-smt-idk.onrender.com',
-]
+# Адреса, по которым разрешено обращаться к серверу. Можно переопределить переменной окружения
+# ALLOWED_HOSTS (через запятую). «.домен» — домен и все его поддомены (превью-сборки Cloudflare Pages).
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,marketplace-or-smt-idk.onrender.com,.marketplace-frontend-52x.pages.dev',
+).split(',')
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):  # Render сам сообщает адрес сервиса
+    ALLOWED_HOSTS.append(os.environ['RENDER_EXTERNAL_HOSTNAME'])
+
+# Сервер работает за прокси (Render, Cloudflare): берём из заголовков X-Forwarded-* настоящий адрес сайта и https.
+# Тогда ссылки на фото товаров строятся на адрес фронтенда (https://….pages.dev/media/…), а не на внутренний адрес
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [o for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o]
+# На хостинге (DEBUG=False) cookie сессии админ-панели и CSRF передаются только по https
+SESSION_COOKIE_SECURE = CSRF_COOKIE_SECURE = not DEBUG
 
 
 # Application definition
@@ -68,6 +81,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # должен стоять как можно выше
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # статика (CSS/JS админ-панели) на хостинге, где DEBUG=False
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -111,8 +125,10 @@ if os.environ.get('DB_NAME'):
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '5432'),
+            # Render требует шифрование, а локальный PostgreSQL обычно без него. «prefer» — шифровать, если сервер умеет;
+            # строго требовать можно переменной DB_SSLMODE=require
             'OPTIONS': {
-                'sslmode': 'require',
+                'sslmode': os.environ.get('DB_SSLMODE', 'prefer'),
             },
         }
     }
@@ -162,12 +178,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # сюда собирает файлы python manage.py collectstatic
+# WhiteNoise найдёт файлы и без collectstatic (прямо в пакетах Django), так админка не останется без стилей
+WHITENOISE_USE_FINDERS = True
 
 
 # Загружаемые пользователями файлы (фото товаров)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+# Раздавать фото самим Django и при DEBUG=False (учебный хостинг без отдельного файлового сервера)
+SERVE_MEDIA = os.environ.get('SERVE_MEDIA', 'True') == 'True'
 
 # Комиссия площадки с продаж, % — если у категории не задана своя
 MARKETPLACE_COMMISSION_PERCENT = 10

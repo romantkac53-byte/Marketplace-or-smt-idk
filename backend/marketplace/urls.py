@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
 ]
 
-# В режиме разработки Django сам отдаёт загруженные файлы по MEDIA_URL
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Загруженные фото отдаёт сам Django — при разработке и на учебном хостинге (SERVE_MEDIA).
+# Для большого сайта так не делают: фото раздаёт веб-сервер или облачное хранилище
+if settings.DEBUG or settings.SERVE_MEDIA:
+    urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})]

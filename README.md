@@ -92,6 +92,28 @@ npm run dev
 
 Сотрудников (менеджер, склад, курьер, ПВЗ, руководитель) создаёт администратор в кабинете «Пользователи». Баланс покупателю пополняется в админ-панели: «Оплата» → «Операции по балансу» → «Добавить».
 
+## Развёртывание
+
+Сервер и сайт выкладываются на разные хостинги:
+
+```
+браузер → Cloudflare Pages (React) ── /api/*, /media/* ──→ Render (Django + PostgreSQL)
+```
+
+**Сервер — Render** (Web Service, корневая папка `backend`):
+
+- Build Command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
+- Start Command: `gunicorn marketplace.wsgi`
+- переменные окружения: `DEBUG=False`, `SECRET_KEY` (длинная случайная строка), `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` — из данных базы PostgreSQL на Render; при необходимости `ALLOWED_HOSTS` (через запятую)
+
+**Сайт — Cloudflare Pages** (подключение к GitHub-репозиторию):
+
+- Root directory: `frontend`, Build command: `npm run build`, Build output directory: `dist`
+- файл [`frontend/functions/_middleware.js`](frontend/functions/_middleware.js) — прокси: запросы `/api/*` и `/media/*` пересылаются на сервер, поэтому сайт и API для браузера находятся на одном адресе и CORS не нужен
+- адрес сервера по умолчанию задан в этом файле; другой можно указать переменной `BACKEND_URL` в настройках проекта Pages
+
+На бесплатном тарифе Render сервер засыпает без запросов: первый запрос после паузы может идти около минуты. Диск сервиса временный — загруженные фото товаров пропадают при перезапуске; для постоянного хранения нужен Render Disk или облачное хранилище.
+
 ## Тесты
 
 ```bash
