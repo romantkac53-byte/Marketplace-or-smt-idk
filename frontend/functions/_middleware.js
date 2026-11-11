@@ -15,10 +15,19 @@ const PROXIED = ['/api/', '/media/']
 const SITEMAP_TIMEOUT_MS = 8000 // сервер на бесплатном тарифе «просыпается» до минуты — столько поисковик ждать не станет
 const SITEMAP_MAX_PAGES = 50 // страниц API по 20 товаров — до 1000 товаров в карте
 
+// Файлы подтверждения владения сайтом (Google Search Console). Отдаются отсюда, а не из public/:
+// Cloudflare Pages перенаправляет адреса *.html на адрес без .html, а проверка Google ждёт файл ровно по своему адресу
+const VERIFICATION_FILES = {
+  '/googlec461adada234c760.html': 'google-site-verification: googlec461adada234c760.html',
+}
+
 export async function onRequest({ request, env, next }) {
   const url = new URL(request.url)
   const backend = (env.BACKEND_URL || DEFAULT_BACKEND).replace(/\/+$/, '')
 
+  if (VERIFICATION_FILES[url.pathname]) {
+    return new Response(VERIFICATION_FILES[url.pathname], { headers: { 'Content-Type': 'text/html; charset=utf-8' } })
+  }
   if (url.pathname === '/sitemap.xml') return sitemap(url.origin, backend)
   if (!PROXIED.some((prefix) => url.pathname.startsWith(prefix))) {
     return next() // страницы и файлы фронтенда — без изменений
