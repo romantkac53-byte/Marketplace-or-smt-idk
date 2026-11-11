@@ -11,6 +11,7 @@ import { rememberProduct } from '../utils/recent'
 import { ErrorMessage, Loader, Pagination, Price, QuantityControl, Rating } from '../components/ui'
 import { formatDate, plural } from '../utils/format'
 import { useLoad } from '../utils/useLoad'
+import { usePageMeta } from '../utils/pageMeta'
 import styles from './ProductPage.module.css'
 
 function Reviews({ productId }) {
@@ -54,6 +55,9 @@ export default function ProductPage() {
   useEffect(() => { if (product) rememberProduct(product.id) }, [product])
   const [quantity, setQuantity] = useState(1)
   const [status, setStatus] = useState({ busy: false, error: '', added: false })
+  // Заголовок вкладки и описание для поисковиков: название, цена и начало описания товара
+  usePageMeta(product?.name, product && `${product.name} за ${product.current_price} ₽ в Маркете. ${product.description || ''}`,
+    `/products/${id}`)
 
   if (loading) return <Loader />
   if (error) {

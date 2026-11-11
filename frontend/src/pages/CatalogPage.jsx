@@ -6,6 +6,7 @@ import { EmptyState, ErrorMessage, Loader, Pagination } from '../components/ui'
 import { plural } from '../utils/format'
 import { recentProducts } from '../utils/recent'
 import { useLoad } from '../utils/useLoad'
+import { usePageMeta } from '../utils/pageMeta'
 import styles from './CatalogPage.module.css'
 
 // Тот же формат, что понимает сервер (catalog/filters.py): ID123456789, «арт. 123456789», 9 цифр
@@ -98,6 +99,13 @@ export default function CatalogPage() {
   const title = query.search
     ? `Поиск: «${query.search}»`
     : categoryPath ? categoryPath.map((c) => c.name).join(' → ') : 'Все товары'
+  // Для поисковиков: у категории — свой заголовок и адрес, страницы поиска и фильтров считаются копиями главной
+  const categoryName = categoryPath?.at(-1)?.name
+  usePageMeta(
+    isHome ? null : title,
+    categoryName && !query.search ? `${categoryName}: товары разных продавцов в учебном маркетплейсе Маркет — цены, отзывы, доставка.` : null,
+    query.category && !query.search ? `/?category=${query.category}` : '/',
+  )
 
   return (
     <div className="container page">

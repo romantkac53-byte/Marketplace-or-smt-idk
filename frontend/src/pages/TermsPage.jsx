@@ -1,3 +1,5 @@
+import { usePageMeta } from '../utils/pageMeta'
+
 /** Пользовательское соглашение — учебная заглушка. Показывается в окне при регистрации и на странице /terms. */
 export function TermsText() {
   return (
@@ -32,6 +34,7 @@ export function TermsText() {
 }
 
 export default function TermsPage() {
+  usePageMeta('Пользовательское соглашение', 'Пользовательское соглашение учебного маркетплейса Маркет: правила регистрации, заказа, оплаты, доставки и возвратов.')
   return (
     <div className="container page" style={{ maxWidth: 760 }}>
       <section className="card stack">

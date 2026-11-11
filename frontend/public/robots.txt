@@ -1,0 +1,22 @@
+# Правила для поисковых роботов.
+# Индексируются каталог, товары и пользовательское соглашение. Личные кабинеты, корзина и заказы
+# доступны только после входа — роботу там нечего смотреть.
+# /api/ не закрыт: через него поисковик при отрисовке страницы получает список товаров;
+# сами ответы API помечены заголовком X-Robots-Tag: noindex (frontend/functions/_middleware.js).
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /favorites
+Disallow: /orders
+Disallow: /returns
+Disallow: /profile
+Disallow: /seller
+Disallow: /staff
+Disallow: /cabinet
+Disallow: /login
+Disallow: /register
+Disallow: /*?search=
+Disallow: /*&search=
+
+Sitemap: https://marketplace-frontend-52x.pages.dev/sitemap.xml

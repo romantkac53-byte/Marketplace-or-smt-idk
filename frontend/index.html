@@ -14,10 +14,54 @@
         document.documentElement.dataset.theme = theme
       })()
     </script>
-    <title>Маркет — торговая площадка</title>
+    <title>Маркет — учебный маркетплейс АИС Marketplace</title>
+
+    <!-- Для поисковиков. Этот HTML отдаётся сразу, даже пока сервер API «спит»;
+         заголовок, описание и canonical каждой страницы дальше уточняет src/utils/pageMeta.js -->
+    <meta name="description" content="Маркет (АИС Marketplace) — учебная торговая площадка: каталог товаров нескольких продавцов, корзина, заказ с доставкой курьером или в пункт выдачи, отзывы и возвраты." />
+    <meta name="keywords" content="Маркет, АИС Marketplace, маркетплейс, учебный маркетплейс, торговая площадка, интернет-магазин, Django, React, курсовой проект" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="romantkac53-byte" />
+
+    <!-- Превью ссылки в мессенджерах и соцсетях (Telegram, ВКонтакте и др.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Маркет" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content="Маркет — учебный маркетплейс АИС Marketplace" />
+    <meta property="og:description" content="Каталог товаров нескольких продавцов, корзина, заказ с доставкой курьером или в пункт выдачи, отзывы и возвраты." />
+    <meta property="og:image" content="https://marketplace-frontend-52x.pages.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Подсказки поисковику: название сайта и как искать по нему -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Маркет",
+        "alternateName": ["АИС Marketplace", "Маркет — учебный маркетплейс"],
+        "url": "https://marketplace-frontend-52x.pages.dev/",
+        "inLanguage": "ru",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://marketplace-frontend-52x.pages.dev/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Текст до запуска приложения: его видят поисковики и пользователи без JavaScript.
+           React при загрузке заменяет содержимое #root на сайт -->
+      <main style="max-width: 720px; margin: 15vh auto 0; padding: 0 16px; text-align: center">
+        <h1>Маркет — учебный маркетплейс</h1>
+        <p>АИС Marketplace — торговая площадка, где несколько продавцов продают товары в одном каталоге: поиск по названию и артикулу, корзина, заказ с доставкой курьером или в пункт выдачи, оплата, отзывы и возвраты.</p>
+        <p>Загрузка…</p>
+      </main>
+    </div>
+    <noscript>Для работы сайта включите JavaScript в браузере.</noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
